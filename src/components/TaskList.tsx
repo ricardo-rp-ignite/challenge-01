@@ -18,16 +18,16 @@ export function TaskList() {
     // Crie uma nova task com um id random, não permita criar caso o título seja vazio.
     if (newTaskTitle === '') return
 
-    const newTasks = [
-      ...tasks,
-      {
-        title: newTaskTitle,
-        isComplete: false,
-        id: Date.now()
-      }
-    ]
-    
-    setTasks(newTasks)
+    const newTask: Task = {
+      title: newTaskTitle,
+      isComplete: false,
+      id: Date.now()
+    }
+
+    /* Passing a callback as first param is better than referencing tasks 
+    *  directly. `tasks` may be stale if we don't use a callback function. */
+    setTasks(oldState => [...oldState, newTask])
+    setNewTaskTitle('')
   }
 
   function handleToggleTaskCompletion(id: number) {
